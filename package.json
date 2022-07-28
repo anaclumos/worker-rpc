@@ -1,0 +1,22 @@
+{
+  "name": "worker-rpc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "worker.js",
+  "scripts": {
+    "serve": "npx serve-isolated ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anaclumos/worker-rpc.git"
+  },
+  "author": "https://github.com/anaclumos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anaclumos/worker-rpc/issues"
+  },
+  "homepage": "https://github.com/anaclumos/worker-rpc#readme",
+  "dependencies": {
+    "serve-isolated": "^1.0.1"
+  }
+}
