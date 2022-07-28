@@ -4,17 +4,20 @@ let sab = undefined
 let int32 = undefined
 
 onmessage = function (e) {
-  if (e.data?.type === 'sab') {
+  console.log('WORKER.onMessage:', e.data)
+  if (e.data?.type === 'init') {
     sab = e.data.sab
     int32 = new Int32Array(sab)
+    console.log('Received SAB')
+    heartbeat()
   }
-
-  console.log('WORKER.onMessage:', e.data)
-  postMessage(`I am a worker. Hello, ${e.data}.`)
+  postMessage(`I am a worker. Hello, ${JSON.stringify(e.data)}.`)
 }
 
-function slowHelloFromWorker() {
-  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000)
-  postMessage('Hello from worker!')
-  Atomics.wake(new Int32Array(new SharedArrayBuffer(4)), 0, 1)
+function heartbeat() {
+  setInterval(() => {
+    Atomics.wait(int32, 0, 0) // doesn't beat if [0] is 0
+    console.log('WORKER.heartbeat:', Atomics.load(int32, 0))
+    Atomics.add(int32, 0, 1)
+  }, 1000)
 }
