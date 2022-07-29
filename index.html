@@ -5,11 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./status.js"></script>
-    <title>Document</title>
+    <title>Worker RPC/title>
     <script>
       console.log('crossOriginIsolated', crossOriginIsolated)
+      const Status = {
+        UNINITIALISED: 0,
+        READY: 1,
+        COMPLETED: 2,
+        ERROR: 3,
+      }
       const worker = new Worker('worker.js')
-
       worker.onmessage = function (e) {
         const message = e.data
         if (message?.func === 'prompt') {
@@ -32,7 +37,7 @@
     </script>
   </head>
   <body>
-    <h1>RPC Demo</h1>
+    <h1>Worker RPC Demo</h1>
     <button onclick="console.log('hello')">Console Log</button>
     <button onclick="console.log('main thread:', window.innerWidth)">
       Console Log Window Inner Width

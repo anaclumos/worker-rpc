@@ -49,10 +49,16 @@ const window = {
   },
 }
 
+// Therefore we can...
+
 sleep(5000)
+
 prompt('hello!')
+
 sleep(2000)
 
 console.log('worker thread:', window.innerWidth)
 
 console.log('this should go after printing worker window.innerWidth (sync access)')
+
+// This all happens synchronously in multi-thread.
