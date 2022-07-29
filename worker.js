@@ -34,7 +34,25 @@ function prompt(msg) {
   console.log('WORKER recieved result:', string)
 }
 
-const timeToWait = Math.floor(Math.random() * 10000)
-console.log('WORKER.sleep', timeToWait)
-sleep(timeToWait)
+const window = {
+  get innerWidth() {
+    const sab = new SharedArrayBuffer(4)
+    const int32 = new Int32Array(sab)
+    Atomics.store(int32, 0, Status.READY)
+    postMessage({
+      sharedArrayBuffer: sab,
+      func: 'windowInnerWidth',
+    })
+    Atomics.wait(int32, 0, Status.READY)
+    const innerWidth = Atomics.load(int32, 0)
+    return innerWidth
+  },
+}
+
+sleep(5000)
 prompt('hello!')
+sleep(2000)
+
+console.log('worker thread:', window.innerWidth)
+
+console.log('this should go after printing worker window.innerWidth (sync access)')
